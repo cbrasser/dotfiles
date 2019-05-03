@@ -9,3 +9,6 @@ The top bar is a custom polybar configuration. My terminal is terminator, runnin
 
 ## Floating Workspace
 ![Picture](https://raw.githubusercontent.com/cbrasser/dotfiles/master/sc_2.png)
+
+## Second Floating
+![Picture](https://raw.githubusercontent.com/cbrasser/dotfiles/master/sc_3.png)
