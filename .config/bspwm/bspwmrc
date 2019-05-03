@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# start blurwal for wallpaper bluring
+/home/clados/.local/bin/blurwal -m 2 &
+dunst &
+~/.fehbg &
+# Touchpad drivers
+libinput-gestures &
+
+# set root pointer
+xsetroot -cursor_name left_ptr
+
+# key bindings
+sxhkd &
+
+# launch compton
+al-compositor --start &
+
+# xfce settings
+xfsettingsd &
+
+# panel
+polybar bspwm-bar &
+
+# bspwm configuration
+bspc monitor -d ツ 雨 ア メ リ カ 森
+
+bspc config border_width 5
+bspc config normal_border_color '#b48ead'
+bspc config active_border_color '#a3be8c'
+bspc config focused_border_color '#a3be8c'
+bspc config window_gap 20
+bspc config top_padding 10
+bspc config right_padding 0
+bspc config bottom_padding 10
+bspc config left_padding 0
+
+bspc config split_ratio 0.50
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+bspc config paddingless_monocle true
+
+bspc config pointer_modifier mod1
+bspc config click_to_focus true
+bspc config pointer_action1 move
+bspc config pointer_action2 resize_side
+bspc config pointer_action3 resize_corner
+
+bspc rule -a firefox desktop='^3'
+bspc rule -a atom desktop='^2'

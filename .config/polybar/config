@@ -1,0 +1,138 @@
+
+
+
+;=====================================================
+;     File Includes
+;=====================================================
+
+[section/base]
+include-file = /home/clados/.config/polybar/master.conf
+include-file = /home/clados/.config/polybar/modules.conf
+
+
+;=====================================================
+;     Openbox Bars
+;=====================================================
+
+[bar/openbox-bar]
+inherit = bar/master
+
+; Use $ xrandr -q | grep " connected" | cut -d ' ' -f1
+monitor =
+
+modules-left   = jgmenu workspaces
+modules-center = window_switch clock
+modules-right  = ${env:POLYBAR_MODULES:coreuse temperature memory pkg network volume}
+
+
+;=====================================================
+;     i3 Bars
+;=====================================================
+
+[bar/i3-bar]
+inherit = bar/master
+
+; Use $ xrandr -q | grep " connected" | cut -d ' ' -f1
+monitor =
+
+modules-left   = i3 menu
+modules-center = clock
+modules-right  = ${env:POLYBAR_MODULES:coreuse temperature memory pkg network volume}
+
+
+;=====================================================
+;     Bspwm Bars
+;=====================================================
+
+[colors]
+red = #bf616a
+green = a3be8c
+yellow = ebcb8b
+d_purple = b48ead
+foreground-alt = #ffb536
+primary = #ffb536
+secondary = #ffb536
+gold = #ffb536
+bg_color = #ff2e3440
+brown = #ff9742
+turq = 8fbcbb
+orange = d08770
+
+
+[bar/bspwm-bar]
+inherit = bar/master
+
+; Use $ xrandr -q | grep " connected" | cut -d ' ' -f1
+monitor = eDP1
+
+modules-left   = bspwm
+modules-center = clock
+modules-right  = ${env:POLYBAR_MODULES:coreuse  pkg network}
+
+background = ${colors.bg_color}
+line-size = 3
+border-size = 0
+border-bottom-size = 0
+
+height = 27
+
+font-0 =Source Code Pro:style=Medium Italic:size=10;1
+font-1 =Noto Sans CJK JP:style=regular:size=12
+
+
+[bar/cozy]
+monitor = eDP1
+width = 100%
+height = 60
+offset-x = 0%
+offset-y = 95%
+radius = 1.0
+fixed-center = true
+
+
+background = #aF181621
+foreground = #ff5c57
+
+line-size = 0
+line-color = #ffffff
+
+border-size = 0
+
+border-right-size = 0
+border-left-size = 0
+border-top-size = 0
+border-color = #5af78e
+
+padding-left = 0
+padding-right = 10
+
+module-margin-left = 0
+module-margin-right = 0
+font-0 =mplus nerd font:style=regular:size=18;3
+font-1 =Operator Mono:style=Italic:pixelsize=15;1
+font-2 =zoecons666:pixelsize=3;4
+font-3 =siji:pixelsize=3;1
+font-4 =curie:style=regular:pixelsize=9;0
+font-5 =Font Awesome 5 Free Solid:size=18;3
+
+
+modules-left = bspwm
+; modules-center = mpd
+modules-right = herbspaces2
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+;=====================================================
+;     Openbox Bars
+;=====================================================
+
+[bar/generic-bar]
+inherit = bar/master
+
+; Use $ xrandr -q | grep " connected" | cut -d ' ' -f1
+monitor =
+
+modules-left   = workspaces menu
+modules-center = clock
+modules-right  = ${env:POLYBAR_MODULES:coreuse temperature memory pkg network volume}
