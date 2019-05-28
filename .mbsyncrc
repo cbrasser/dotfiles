@@ -1,0 +1,50 @@
+IMAPStore university-remote
+Host imap.uzh.ch
+Port  993
+User cbrass
+PassCmd "pass mutt-wizard-university"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore university-local
+Subfolders Verbatim
+Path ~/.local/share/mail/university/
+Inbox ~/.local/share/mail/university/INBOX
+Flatten .
+
+Channel university
+Expunge Both
+Master :university-remote:
+Slave :university-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 50
+# End profile
+
+
+
+IMAPStore gmail-remote
+Host imap.gmail.com
+Port  993
+User brasser13@gmail.com
+PassCmd "pass mutt-wizard-gmail"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore gmail-local
+Subfolders Verbatim
+Path ~/.local/share/mail/gmail/
+Inbox ~/.local/share/mail/gmail/INBOX
+Flatten .
+
+Channel gmail
+Expunge Both
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 50
+# End profile
+
