@@ -1,27 +1,21 @@
 # web browser
 super + w
-    exo-open --launch WebBrowser
+   firefox 
+
+#lockscreen
+super + shift + l
+    sh ~/lockscreen.sh
 
 # terminal emulator
 super + t
-    exo-open --launch TerminalEmulator
-
-super + Return
-    exo-open --launch TerminalEmulator
-
-ctrl + shift + t
-    exo-open --launch TerminalEmulator
+    st
 
 # file manager
 super + f
-    exo-open --launch FileManager
+    st fff
 
 # program launcher
 super + @space
-    rofi_run -r
-
-# program launcher
-alt + F1
     rofi_run -r
 
 # Volume control
@@ -93,7 +87,7 @@ super + {_,shift + }c
     bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor
-super + bracket{left,right}
+alt +{h,l}
     bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
@@ -156,4 +150,4 @@ XF86AudioLowerVolume
 XF86MonBrightnessUp
     xbacklight +10
 XF86MonBrightnessDown
-    xbacklight -10
+    x

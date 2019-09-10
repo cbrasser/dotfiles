@@ -4,20 +4,19 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 
 " Make sure you use single quotes
-Plug 'davidhalter/jedi-vim'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
-let g:python_host_prog = '~/dev/venvs/nvim/bin/python'
-Plug 'zchee/deoplete-jedi'
+" Plug 'davidhalter/jedi-vim'
+" Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }
+" let g:deoplete#enable_at_startup = 1
+" let g:python_host_prog = '~/dev/venvs/nvim/bin/python'
+" Plug 'zchee/deoplete-jedi'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme='nord'
-Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sbdchd/neoformat'
 Plug 'scrooloose/nerdtree'
-Plug 'neomake/neomake'
-let g:neomake_python_enabled_makers = ['pylint']
+" Plug 'neomake/neomake'
+" let g:neomake_python_enabled_makers = ['pylint']
 Plug 'machakann/vim-highlightedyank'
 " Plug 'tmhedberg/SimpylFold'
 Plug 'arcticicestudio/nord-vim'
@@ -26,9 +25,11 @@ let g:nord_italic = 1
 let g:nord_uniform_status_lines = 1
 let g:nord_uniform_diff_background = 1
 Plug 'junegunn/goyo.vim'
-
-
-
+Plug 'junegunn/fzf.vim'
+Plug 'vim-scripts/aftersyntaxc.vim'
+Plug 'valloric/youcompleteme'
+Plug 'tpope/vim-fugitive'
+Plug 'jiangmiao/auto-pairs'
 
 
 " Initialize plugin system
@@ -339,4 +340,4 @@ function! <SID>ranger()
         execute 'argadd '.fnameescape(l:name)
     endfor
     redraw!
-endfunction
+e

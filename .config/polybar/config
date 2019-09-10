@@ -67,7 +67,7 @@ monitor = eDP1
 
 modules-left   = bspwm
 modules-center = clock
-modules-right  = ${env:POLYBAR_MODULES:coreuse  pkg network}
+modules-right  = ${env:POLYBAR_MODULES:coreuse pkg battery network}
 
 background = ${colors.bg_color}
 line-size = 3
