@@ -1,49 +1,116 @@
-#!/bin/zsh
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# catch non-zsh and non-interactive shells
-[[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
+# Path to your oh-my-zsh installation.
+export ZSH="/home/clados/.oh-my-zsh"
 
-# set some defaults
-export MANWIDTH=90
-export HISTSIZE=10000
-export SAVEHIST=10000
-export EDITOR="/usr/bin/nvim"
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# oSee https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="robbyrussell"
 
-# path to the framework root directory
-SIMPL_ZSH_DIR=$HOME/.zsh
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+#
 
-# add ~/bin to the path if not already, the -U flag means 'unique'
-typeset -U path=($HOME/bin "${path[@]:#}")
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-# used internally by zsh for loading themes and completions
-typeset -U fpath=("$SIMPL_ZSH_DIR/"{completion,themes} $fpath)
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-# initialize the prompt
-autoload -U promptinit && promptinit
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
 
-# source shell configuration files
-for f in "$SIMPL_ZSH_DIR"/{settings,plugins}/*?.zsh; do
-    . "$f" 2>/dev/null
-done
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
 
-# uncomment these lines to disable the multi-line prompt
-# add user@host, and remove the unicode line-wrap characters
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
 
-# PROMPT_LNBR1=''
-# PROMPT_MULTILINE=''
-# PROMPT_USERFMT='%n%f@%F{red}%m'
-# PROMPT_ECODE="%(?,,%F{red}%? )"
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
 
-# load the prompt last
-# prompt simpl
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-alias ml='source ~/dev/venvs/ml/bin/activate'
-alias screenfetch='sh ~/.screenfetch.sh'
-alias blurwal='/home/clados/.local/bin/blurwal'
-alias power='sh ~/.config/rofi/scripts/powermenu.sh'
-alias vol='sh ~/.config/rofi/scripts/rofi-audio.sh'
-alias wifi='sh ~/.config/rofi/scripts/rofi-wifi-menu.sh'
-alias run='rofi -show drun -display-drun Apps -theme ~/.config/rofi/themes/teerqooaz.rasi -normal-window'
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-# start into fish shell, temporary hack
-prompt simpl
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
+#
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git archlinux catimg copyfile extract web-search)
+
+source $ZSH/oh-my-zsh.sh
+unsetopt share_history
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
+export BROWSER=firefox
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+# 
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+alias zshconfig="nvim ~/.zshrc"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias q="exit"
+alias bspwmfloat="sh .bspwmfloat"
+alias nb="nvim ~/dev/notebook"
+alias nb-sync="git --git-dir=/home/clados/dev/notebook/.git pull"
+alias nb-store="git --git-dir=/home/clados/dev/notebook/.git add /home/clados/dev/notebook/* && git --git-dir=/home/clados/dev/notebook/.git commit -m 'update' && git --git-dir=/home/clados/dev/notebook/.git push"
+alias update="sudo pacman -Syu"
+alias install="sudo pacman -S"
+alias remove="sudo pacman -Rns"
+alias mt="sh .stim.sh"
+
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

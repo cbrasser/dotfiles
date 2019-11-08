@@ -2,39 +2,74 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-
-" Make sure you use single quotes
-" Plug 'davidhalter/jedi-vim'
-" Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }
-" let g:deoplete#enable_at_startup = 1
-" let g:python_host_prog = '~/dev/venvs/nvim/bin/python'
-" Plug 'zchee/deoplete-jedi'
+" Language Server for code completion, does not work yet
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+let g:LanguageClient_serverCommands = {'c': ['~/builds/cquery/build/release/bin/cquery', '--log-file=/tmp/cq.log']}
+let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+let g:LanguageClient_settingsPath = '/home/clados/.config/nvim/settings.json'
+set completefunc=LanguageClient#complete
+set formatexpr=LanguageClient_textDocument_rangeFormatting()
+" Bookmark manager: https://github.com/MattesGroeger/vim-bookmarks
+Plug 'MattesGroeger/vim-bookmarks'
+" Bottom status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-let g:airline_theme='nord'
+" Nice commenting plugin
 Plug 'scrooloose/nerdcommenter'
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespaces = 1
+let g:NERDToggleCheckAllLines = 1
+" Code formatter
 Plug 'sbdchd/neoformat'
+" Activating clangformat as c code formatter
+let g:neoformat_enabled_c = ['clangformat']
+" File system plugin
 Plug 'scrooloose/nerdtree'
-" Plug 'neomake/neomake'
-" let g:neomake_python_enabled_makers = ['pylint']
-Plug 'machakann/vim-highlightedyank'
-" Plug 'tmhedberg/SimpylFold'
-Plug 'arcticicestudio/nord-vim'
-let g:nord_underline = 1
-let g:nord_italic = 1
-let g:nord_uniform_status_lines = 1
-let g:nord_uniform_diff_background = 1
+" Colorscheme
+Plug 'morhetz/gruvbox'
+" Disables all UI components for clean writing
 Plug 'junegunn/goyo.vim'
-Plug 'junegunn/fzf.vim'
-Plug 'vim-scripts/aftersyntaxc.vim'
-Plug 'valloric/youcompleteme'
+" Another code completion engine
+" Plug 'valloric/youcompleteme'
+" Git integration: TODO: Define bindings
 Plug 'tpope/vim-fugitive'
+" Automatic bracket completion
 Plug 'jiangmiao/auto-pairs'
-
+"Plug 'tpope/vim-surround'
+" Fuzzy search
+Plug 'ctrlpvim/ctrlp.vim'
 
 " Initialize plugin system
 call plug#end()
 
+" Re-map leader
+let mapleader = ","
+
+let g:ctrlp_working_path_mode = 'rw'
+
+" Space + f for formatting
+nnoremap <leader>f :Neoformat<CR>
+nnoremap <leader>g :Goyo<CR>
+
+" find file
+nnoremap <leader>ff :CtrlPCurWD<CR>
+" find buffer
+" nnoremap <leader>fb :CtrlPBuffer<CR>
+" find all
+" nnoremap <leader>fa :CtrlPMixed<CR>
+
+nmap <C-n> :NERDTreeToggle<CR>
+" language server mappings
+nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient#textDocument_references()<CR>
+nnoremap <silent> gs :call LanguageClient#textDocument_documentSymbol()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 scriptencoding utf8
 
@@ -45,7 +80,7 @@ runtime! archlinux.vim
 set clipboard^=unnamed,unnamedplus
 
 " additional settings
-set modeline           " enable vim modelines
+set modeline           " enable v" Colorschemeim modelines
 set hlsearch           " highlight search items
 set incsearch          " searches are performed as you type
 set number             " enable line numbers
@@ -59,10 +94,8 @@ set shortmess+=aAcIws  " Hide or shorten certain messages
 let g:netrw_altv = 1
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 3
+let g:airline_theme='gruvbox'
 
-" ------ leader mapping ------
-
-let g:mapleader = "/"
 
 " ------ enable additional features ------
 
@@ -77,16 +110,13 @@ endif
 syntax enable
 
 set linebreak breakindent
-set list listchars=tab:>>,trail:~
+" dont show tabs
+" set list listchars=tab:>>,trail:~
 
-" midnight, night, or day
-let g:jinx_theme = 'midnight'
-
-try
-    colorscheme nord
-catch
-    colorscheme slate
-endtry
+" Set colorscheme
+colorscheme gruvbox
+" Disable background to get terminal background color
+hi Normal guibg=NONE ctermbg=NONE
 
 if $TERM !=? 'linux'
     set termguicolors
@@ -117,15 +147,11 @@ endif
 " ------ commands ------
 
 command! D Explore
-command! R call <SID>ranger()
 command! Q call <SID>quitbuffer()
 command! -nargs=1 B :call <SID>bufferselect("<args>")
 command! W execute 'silent w !sudo tee % >/dev/null' | edit!
 
 " ------ basic maps ------
-
-" open ranger as a file chooser using the function below
-nnoremap <leader>r :call <SID>ranger()<CR>
 
 " match string to switch buffer
 nnoremap <Leader>b :let b:buf = input('Match: ')<Bar>call <SID>bufferselect(b:buf)<CR>
@@ -215,37 +241,6 @@ nnoremap <silent> <Leader>ss
     \  call setpos('.', b:_p) <Bar>
     \  unlet b:_p <CR>
 
-" global replace
-vnoremap <Leader>sw "hy
-    \ :let b:sub = input('global replacement: ') <Bar>
-    \ if b:sub !=? '' <Bar>
-    \   let b:rep = substitute(getreg('h'), '/', '\\/', 'g') <Bar>
-    \   execute '%s/'.b:rep."/".b:sub.'/g' <Bar>
-    \   unlet b:sub b:rep <Bar>
-    \ endif <CR>
-nnoremap <Leader>sw
-    \ :let b:sub = input('global replacement: ') <Bar>
-    \ if b:sub !=? '' <Bar>
-    \   execute "%s/<C-r><C-w>/".b:sub.'/g' <Bar>
-    \   unlet b:sub <Bar>
-    \ endif <CR>
-
-" prompt before each replace
-vnoremap <Leader>cw "hy
-    \ :let b:sub = input('interactive replacement: ') <Bar>
-    \ if b:sub !=? '' <Bar>
-    \   let b:rep = substitute(getreg('h'), '/', '\\/', 'g') <Bar>
-    \   execute '%s/'.b:rep.'/'.b:sub.'/gc' <Bar>
-    \   unlet b:sub b:rep <Bar>
-    \ endif <CR>
-
-nnoremap <Leader>cw
-    \ :let b:sub = input('interactive replacement: ') <Bar>
-    \ if b:sub !=? '' <Bar>
-    \   execute "%s/<C-r><C-w>/".b:sub.'/gc' <Bar>
-    \   unlet b:sub <Bar>
-    \ endif <CR>
-
 " highlight long lines, ll (long lines)
 let w:longlines = matchadd('ColorColumn', '\%'.&textwidth.'v', &textwidth)
 nnoremap <silent> <Leader>ll
@@ -322,22 +317,4 @@ function! <SID>bufferselect(pattern) abort
     endif
 endfunction
 
-" open ranger as a file chooser
-function! <SID>ranger()
-    let l:temp = tempname()
-    execute 'silent !xterm -e ranger --choosefiles='.shellescape(l:temp).' $PWD'
-    if !filereadable(temp)
-        redraw!
-        return
-    endif
-    let l:names = readfile(l:temp)
-    if empty(l:names)
-        redraw!
-        return
-    endif
-    execute 'edit '.fnameescape(l:names[0])
-    for l:name in l:names[1:]
-        execute 'argadd '.fnameescape(l:name)
-    endfor
-    redraw!
-e
+

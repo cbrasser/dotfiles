@@ -1,10 +1,8 @@
 #!/bin/sh
 
-# start blurwal for wallpaper bluring
 /home/clados/.local/bin/blurwal -m 2 &
 dunst &
 ~/.fehbg &
-# Touchpad drivers
 libinput-gestures &
 
 # set root pointer
@@ -16,21 +14,30 @@ sxhkd &
 # launch compton
 al-compositor --start &
 
-# xfce settings
-xfsettingsd &
-
 # panel
-polybar bspwm-bar &
+polybar -r bspwm-bar &
+polybar -r bspwm-work &
 
-# bspwm configuration
-bspc monitor -d ツ 雨 ア メ リ カ 森
+# mpd (mopdiy)
+mopidy &
 
-bspc config border_width 4
-bspc config normal_border_color '#b48ead'
+# mpd notifications
+musnify-mpd &
+
+# Set Desktop names
+bspc monitor eDP1 -d ツ 雨 ア メ リ カ 森
+bspc monitor HDMI2 -d I II III IV
+# bspc monitor HDMI2 8 9 0
+
+bspc config border_width 0
+# bspc config normal_border_width 0
+bspc config normal_border_color '#1A1E21'
 bspc config active_border_color '#a3be8c'
 bspc config focused_border_color '#a3be8c'
+# bspc config -n "$(bspc query -N -n .normal)" border_width 0
+
 bspc config window_gap 20
-bspc config top_padding 10
+bspc config top_padding 1
 bspc config right_padding 0
 bspc config bottom_padding 10
 bspc config left_padding 0
@@ -46,3 +53,8 @@ bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
 bspc config pointer_action3 resize_corner
 
+# bspc rule -a mpv border=off
+# bspc rule -a st border=off
+# bspc rule -a * border=off
+# bspc rule -a -n "$(bspc query -N -n .focused)" border=on
+# bspc config -n "$(bspc query -N -n .active)" border_width 4

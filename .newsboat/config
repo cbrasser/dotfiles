@@ -1,0 +1,2 @@
+auto-reload yes
+macro m set browser "youtube-viewer %u"; open-in-browser ;
