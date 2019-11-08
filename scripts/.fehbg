@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-fill '/home/clados/Pictures/wall.jpg' 
+feh --no-fehbg --bg-fill '/home/clados/.cache/blurwal/frame-10.jpg' 
